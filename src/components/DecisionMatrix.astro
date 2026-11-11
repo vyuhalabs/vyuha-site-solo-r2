@@ -1,0 +1,116 @@
+---
+import Frame from "./Frame.astro";
+
+type Tier = "autonomous" | "notify" | "approve";
+const tiers: Tier[] = ["autonomous", "notify", "approve"];
+const rows: { action: string; tier: Tier }[] = [
+  { action: "Create a branch and run tests", tier: "autonomous" },
+  { action: "Open a pull request", tier: "notify" },
+  { action: "Merge into main", tier: "approve" },
+  { action: "Spend past a threshold", tier: "approve" },
+  { action: "Release to production", tier: "approve" },
+  { action: "Write to a customer", tier: "approve" },
+];
+---
+<Frame
+  title="settings · decisions"
+  caption="Illustration of the decision matrix: each kind of action has a tier, and you set it."
+>
+  <div class="wrap">
+    <table>
+      <caption class="visually-hidden">Decision tiers by action</caption>
+      <thead>
+        <tr>
+          <th scope="col">Action</th>
+          {tiers.map((t) => <th scope="col" class="mono">{t}</th>)}
+        </tr>
+      </thead>
+      <tbody>
+        {
+          rows.map((r) => (
+            <tr>
+              <th scope="row">{r.action}</th>
+              {tiers.map((t) => (
+                <td>
+                  {r.tier === t ? (
+                    <span class:list={["dot", t]}>
+                      <span class="visually-hidden">yes</span>
+                    </span>
+                  ) : (
+                    <span class="empty" aria-hidden="true" />
+                  )}
+                </td>
+              ))}
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+</Frame>
+
+<style>
+  .wrap {
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--text-sm);
+  }
+
+  th,
+  td {
+    padding: var(--s-2) var(--s-4);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  thead th {
+    font-weight: 400;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    background: var(--bg-subtle);
+  }
+
+  th[scope="row"],
+  thead th:first-child {
+    text-align: left;
+  }
+
+  th[scope="row"] {
+    font-weight: 400;
+  }
+
+  .dot,
+  .empty {
+    display: inline-block;
+    width: 0.75rem;
+    height: 0.75rem;
+    border-radius: 50%;
+    vertical-align: middle;
+  }
+
+  .empty {
+    width: 0.375rem;
+    height: 0.375rem;
+    background: var(--border-strong);
+  }
+
+  .dot.autonomous {
+    border: 2px solid var(--text-faint);
+  }
+
+  .dot.notify {
+    border: 2px solid var(--accent);
+  }
+
+  .dot.approve {
+    background: var(--accent);
+  }
+</style>

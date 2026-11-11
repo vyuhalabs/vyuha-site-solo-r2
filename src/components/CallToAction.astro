@@ -1,0 +1,63 @@
+---
+import { ACCESS_URL, href } from "../site";
+---
+<section class="cta" aria-labelledby="cta-title">
+  <div class="container">
+    <div class="panel">
+      <div>
+        <h2 id="cta-title">Start with the guide.</h2>
+        <p>
+          It walks you from an empty company to a first reviewed run, in eight steps. When you are
+          ready, ask for access.
+        </p>
+      </div>
+      <div class="actions">
+        <a class="button button-primary" href={href("/docs/getting-started/")}>
+          Read the getting-started guide
+        </a>
+        <a class="button button-secondary" href={ACCESS_URL}>Ask for access</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-top: var(--s-9);
+  }
+
+  .panel {
+    display: grid;
+    gap: var(--s-6);
+    align-items: center;
+    padding: var(--s-7) var(--s-6);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background:
+      radial-gradient(40rem 20rem at 100% 0%, var(--accent-soft), transparent 70%),
+      var(--bg-subtle);
+  }
+
+  h2 {
+    font-size: var(--text-2xl);
+  }
+
+  p {
+    margin-top: var(--s-3);
+    color: var(--text-muted);
+    max-width: 34rem;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+  }
+
+  @media (min-width: 60rem) {
+    .panel {
+      grid-template-columns: 1fr auto;
+      padding: var(--s-8) var(--s-7);
+    }
+  }
+</style>

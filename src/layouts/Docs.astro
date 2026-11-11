@@ -1,0 +1,168 @@
+---
+import { getCollection } from "astro:content";
+import CallToAction from "../components/CallToAction.astro";
+import { href } from "../site";
+import Base from "./Base.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  og: string;
+  headings: { depth: number; slug: string; text: string }[];
+}
+
+const { title, description, og, headings } = Astro.props;
+const pages = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+const current = Astro.url.pathname;
+const toc = headings.filter((h) => h.depth === 2);
+---
+<Base title={title} description={description} og={og}>
+  <div class="container layout">
+    <nav class="sidebar" aria-label="Documentation">
+      <p class="label">Docs</p>
+      <ul>
+        {
+          pages.map((p) => {
+            const target = href(`/docs/${p.id}/`);
+            return (
+              <li>
+                <a href={target} aria-current={current === target ? "page" : undefined}>
+                  {p.data.navLabel}
+                </a>
+              </li>
+            );
+          })
+        }
+        <li><a href={href("/faq/")}>FAQ</a></li>
+      </ul>
+    </nav>
+    <article class="article">
+      <header class="head">
+        <h1>{title}</h1>
+        <p class="lede">{description}</p>
+      </header>
+      <div class="prose">
+        <slot />
+      </div>
+    </article>
+    {
+      toc.length > 2 && (
+        <nav class="toc" aria-label="On this page">
+          <p class="label">On this page</p>
+          <ul>
+            {toc.map((h) => (
+              <li>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </div>
+  <CallToAction />
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    gap: var(--s-6);
+    padding-top: var(--s-8);
+  }
+
+  .head {
+    padding-bottom: var(--s-6);
+    margin-bottom: var(--s-2);
+    border-bottom: 1px solid var(--border);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.025em;
+    margin-bottom: var(--s-4);
+  }
+
+  .label {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--text-faint);
+    margin-bottom: var(--s-2);
+  }
+
+  .sidebar ul,
+  .toc ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .sidebar ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-1);
+  }
+
+  .sidebar a {
+    display: block;
+    padding: var(--s-2) var(--s-3);
+    border-radius: var(--radius-sm);
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    font-weight: 600;
+  }
+
+  .sidebar a:hover {
+    background: var(--surface-2);
+    color: var(--text);
+  }
+
+  .sidebar a[aria-current="page"] {
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  .toc {
+    display: none;
+  }
+
+  .toc a {
+    display: block;
+    padding: 0.3rem 0;
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    line-height: 1.4;
+  }
+
+  .toc a:hover {
+    color: var(--text);
+  }
+
+  @media (min-width: 56rem) {
+    .layout {
+      grid-template-columns: 12rem minmax(0, 1fr);
+      gap: var(--s-8);
+    }
+    .sidebar ul {
+      display: block;
+    }
+    .sidebar,
+    .toc {
+      position: sticky;
+      top: 5.5rem;
+      align-self: start;
+    }
+  }
+
+  @media (min-width: 76rem) {
+    .layout {
+      grid-template-columns: 12rem minmax(0, 1fr) 13rem;
+    }
+    .toc {
+      display: block;
+    }
+  }
+</style>

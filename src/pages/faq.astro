@@ -1,0 +1,88 @@
+---
+import { getCollection, render } from "astro:content";
+import CallToAction from "../components/CallToAction.astro";
+import Base from "../layouts/Base.astro";
+import { FAQ_DESCRIPTION } from "../lib/pages";
+
+const entries = (await getCollection("faq")).sort((a, b) => a.data.order - b.data.order);
+const items = await Promise.all(
+  entries.map(async (e) => ({ id: e.id, question: e.data.question, ...(await render(e)) })),
+);
+---
+<Base title="FAQ" description={FAQ_DESCRIPTION} og="faq">
+  <div class="container wrap">
+    <header class="head">
+      <p class="eyebrow">FAQ</p>
+      <h1>Questions, answered plainly.</h1>
+      <p class="lede">{FAQ_DESCRIPTION}</p>
+    </header>
+    <div class="list">
+      {
+        items.map(({ id, question, Content }) => (
+          <section class="item" aria-labelledby={id}>
+            <h2 id={id}>
+              <a href={`#${id}`}>{question}</a>
+            </h2>
+            <div class="prose answer">
+              <Content />
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+  <CallToAction />
+</Base>
+
+<style>
+  .wrap {
+    padding-top: var(--s-8);
+  }
+
+  .head {
+    max-width: 44rem;
+    padding-bottom: var(--s-6);
+  }
+
+  h1 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.025em;
+    margin-block: var(--s-2) var(--s-4);
+  }
+
+  .list {
+    border-top: 1px solid var(--border);
+  }
+
+  .item {
+    display: grid;
+    gap: var(--s-3);
+    padding-block: var(--s-6);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item h2 {
+    font-size: var(--text-lg);
+    scroll-margin-top: var(--s-8);
+  }
+
+  .item h2 a {
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .item h2 a:hover {
+    text-decoration: underline;
+  }
+
+  .answer {
+    color: var(--text-muted);
+  }
+
+  @media (min-width: 56rem) {
+    .item {
+      grid-template-columns: 22rem 1fr;
+      gap: var(--s-8);
+    }
+  }
+</style>

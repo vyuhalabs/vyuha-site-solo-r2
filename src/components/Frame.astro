@@ -1,0 +1,68 @@
+---
+// A quiet app window used to frame product illustrations.
+interface Props {
+  title: string;
+  caption: string;
+}
+const { title, caption } = Astro.props;
+---
+<figure class="frame">
+  <div class="window">
+    <div class="chrome" aria-hidden="true">
+      <span class="dots"><i></i><i></i><i></i></span>
+      <span class="title">{title}</span>
+    </div>
+    <div class="body">
+      <slot />
+    </div>
+  </div>
+  <figcaption>{caption}</figcaption>
+</figure>
+
+<style>
+  .frame {
+    margin: 0;
+  }
+
+  .window {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+
+  .chrome {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    height: 2.25rem;
+    padding: 0 var(--s-3);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-subtle);
+  }
+
+  .dots {
+    display: inline-flex;
+    gap: 6px;
+  }
+
+  .dots i {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--border-strong);
+  }
+
+  .title {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  figcaption {
+    margin-top: var(--s-3);
+    font-size: var(--text-xs);
+    color: var(--text-faint);
+  }
+</style>

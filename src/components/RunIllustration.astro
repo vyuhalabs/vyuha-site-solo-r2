@@ -1,0 +1,155 @@
+---
+import Frame from "./Frame.astro";
+
+const steps = [
+  { kind: "cmd", text: "git switch -c bil-212-invoice-export", note: "branch" },
+  { kind: "cmd", text: "pnpm test", note: "48 passed · 0 failed · 14.2s" },
+  { kind: "cmd", text: "pnpm build", note: "exit 0" },
+  { kind: "shot", text: "screenshot /billing/invoices", note: "1440 × 900" },
+  { kind: "pr", text: "pull request #128 opened", note: "4 files · +212 −9" },
+];
+---
+<Frame
+  title="run 2041 · BIL-212"
+  caption="Illustration of a run: each command, test result, screenshot and pull request is kept as evidence."
+>
+  <div class="run">
+    <dl class="summary">
+      <div><dt>Issue</dt><dd>BIL-212 Add invoice export</dd></div>
+      <div><dt>Agent</dt><dd>builder</dd></div>
+      <div><dt>Harness</dt><dd class="mono">claude-code</dd></div>
+      <div><dt>Machine</dt><dd class="mono">build-01</dd></div>
+      <div><dt>Spend</dt><dd>$1.84 of $5.00</dd></div>
+    </dl>
+    <ol class="steps">
+      {
+        steps.map((s) => (
+          <li>
+            <span class="tick" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="14" height="14">
+                <path
+                  d="M3.5 8.5l3 3 6-7"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.8"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </span>
+            <code class:list={["line", s.kind]}>
+              {s.kind === "cmd" ? <span class="prompt">$ </span> : null}
+              {s.text}
+            </code>
+            <span class="note">{s.note}</span>
+          </li>
+        ))
+      }
+      <li class="pending">
+        <span class="tick wait" aria-hidden="true"></span>
+        <span class="line">Review by the reviewer agent</span>
+        <span class="note">waiting</span>
+      </li>
+    </ol>
+  </div>
+</Frame>
+
+<style>
+  .run {
+    font-size: var(--text-sm);
+  }
+
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-2) var(--s-5);
+    margin: 0;
+    padding: var(--s-3) var(--s-4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .summary div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  dt {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  dd {
+    margin: 0;
+    font-weight: 600;
+  }
+
+  dd.mono {
+    font-weight: 400;
+    font-size: var(--text-xs);
+    line-height: 1.85;
+  }
+
+  .steps {
+    list-style: none;
+    margin: 0;
+    padding: var(--s-3) var(--s-4) var(--s-4);
+    display: grid;
+    gap: var(--s-2);
+  }
+
+  li {
+    display: grid;
+    grid-template-columns: 1.25rem 1fr auto;
+    align-items: center;
+    gap: var(--s-2);
+  }
+
+  .tick {
+    display: inline-grid;
+    place-items: center;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+  }
+
+  .tick.wait {
+    background: transparent;
+    border: 1.5px dashed var(--border-strong);
+  }
+
+  .line {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .prompt {
+    color: var(--text-faint);
+  }
+
+  .pending .line {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+  }
+
+  .note {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    white-space: nowrap;
+  }
+
+  @media (max-width: 34rem) {
+    li {
+      grid-template-columns: 1.25rem 1fr;
+    }
+    .note {
+      grid-column: 2;
+    }
+  }
+</style>

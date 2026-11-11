@@ -1,0 +1,104 @@
+---
+import Frame from "./Frame.astro";
+
+const stages = [
+  { name: "Charter", pod: ["lead"], gate: "charter approved", state: "done" },
+  { name: "Plan", pod: ["lead", "planner"], gate: "plan approved", state: "done" },
+  { name: "Build", pod: ["builder", "builder"], gate: "tests green", state: "current" },
+  { name: "Review", pod: ["reviewer"], gate: "evidence checked", state: "next" },
+  { name: "Release", pod: ["release"], gate: "a person approves", state: "next" },
+];
+---
+<Frame
+  title="playbook · product engagement"
+  caption="Illustration of a playbook: each stage has a pod of roles and a gate it must pass."
+>
+  <ol class="stages">
+    {
+      stages.map((s, i) => (
+        <li class:list={["stage", s.state]} aria-current={s.state === "current" ? "step" : undefined}>
+          <p class="num mono">{String(i + 1).padStart(2, "0")}</p>
+          <p class="name">{s.name}</p>
+          <ul class="pod" aria-label="Pod">
+            {s.pod.map((role) => (
+              <li class="badge">{role}</li>
+            ))}
+          </ul>
+          <p class="gate">
+            <span class="visually-hidden">Gate: </span>
+            {s.gate}
+          </p>
+        </li>
+      ))
+    }
+  </ol>
+</Frame>
+
+<style>
+  .stages {
+    list-style: none;
+    margin: 0;
+    padding: var(--s-4);
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--s-2);
+  }
+
+  .stage {
+    position: relative;
+    padding: var(--s-3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: var(--s-2);
+    min-width: 0;
+  }
+
+  .stage.done {
+    background: var(--bg-subtle);
+  }
+
+  .stage.current {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+  }
+
+  .num {
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  .current .num {
+    color: var(--accent-ink);
+  }
+
+  .name {
+    font-weight: 700;
+    font-size: var(--text-sm);
+  }
+
+  .pod {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .gate {
+    margin-top: auto;
+    font-size: 0.75rem;
+    color: var(--text-faint);
+    border-top: 1px dashed var(--border-strong);
+    padding-top: var(--s-2);
+  }
+
+  @media (max-width: 48rem) {
+    .stages {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

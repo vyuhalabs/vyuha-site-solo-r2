@@ -1,0 +1,377 @@
+---
+import CallToAction from "../components/CallToAction.astro";
+import DecisionMatrix from "../components/DecisionMatrix.astro";
+import InboxIllustration from "../components/InboxIllustration.astro";
+import PlaybookIllustration from "../components/PlaybookIllustration.astro";
+import RunIllustration from "../components/RunIllustration.astro";
+import { MODEL } from "../data/model";
+import Base from "../layouts/Base.astro";
+import { ACCESS_URL, href } from "../site";
+
+const audiences = [
+  {
+    title: "Founders and small product teams",
+    text: "You want agents to do real work, not demos, without losing control of your codebase, your spend or your customers.",
+  },
+  {
+    title: "Engineering leads adopting coding agents",
+    text: "You need review, evidence and policy around agents before they touch the main branch.",
+  },
+  {
+    title: "Services firms and support shops",
+    text: "You run work for clients and must show who did what, when and why.",
+  },
+];
+---
+<Base>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">For small teams that run agents</p>
+        <h1 id="hero-title">Run a company of agents, with a person in charge.</h1>
+        <p class="lede">
+          vyuha is the platform on which a small team runs a company of AI agents. Agents pick up the
+          issues you already track, run real coding harnesses on machines you control, and leave
+          evidence for every step. You set the budgets and decide what needs a person.
+        </p>
+        <div class="actions">
+          <a class="button button-primary" href={href("/docs/getting-started/")}>
+            Read the getting-started guide
+            <svg viewBox="0 0 16 16" aria-hidden="true"
+              ><path
+                d="M3 8h10M9 4l4 4-4 4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path></svg
+            >
+          </a>
+          <a class="button button-secondary" href={ACCESS_URL}>Ask for access</a>
+        </div>
+        <p class="hint">Access is by request. The request is a short issue on GitHub.</p>
+      </div>
+      <div class="hero-art">
+        <InboxIllustration />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="who-title">
+    <div class="container">
+      <p class="eyebrow">Who it is for</p>
+      <h2 id="who-title" class="section-title">Teams that want agents doing real work.</h2>
+      <ul class="audiences">
+        {
+          audiences.map((a) => (
+            <li>
+              <h3>{a.title}</h3>
+              <p>{a.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="model-title">
+    <div class="container">
+      <p class="eyebrow">The model</p>
+      <h2 id="model-title" class="section-title">Seven ideas, in plain words.</h2>
+      <p class="section-lede">
+        vyuha runs agents the way a well-run team runs itself: tracked work, clear roles, checked
+        results and a person who decides.
+      </p>
+      <ol class="model">
+        {
+          MODEL.map((m, i) => (
+            <li>
+              <p class="num mono">{String(i + 1).padStart(2, "0")}</p>
+              <h3>{m.name}</h3>
+              <p>{m.text}</p>
+            </li>
+          ))
+        }
+        <li class="more">
+          <a href={href("/docs/model/")}>
+            <span class="more-title">Read the model in full</span>
+            <span class="more-text">How the seven parts fit, from charter to release.</span>
+          </a>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="evidence-title">
+    <div class="container feature">
+      <div class="feature-copy">
+        <p class="eyebrow">Evidence</p>
+        <h2 id="evidence-title" class="section-title">Every run shows its work.</h2>
+        <p>
+          An agent works on a machine you control, with a real harness. Each command it runs, each
+          test result, each screenshot and each pull request is kept with the run.
+        </p>
+        <p>
+          A person or a reviewer agent checks that evidence before the work moves on. Nothing is
+          taken on trust.
+        </p>
+      </div>
+      <RunIllustration />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="decisions-title">
+    <div class="container feature reverse">
+      <div class="feature-copy">
+        <p class="eyebrow">Decisions</p>
+        <h2 id="decisions-title" class="section-title">You choose what needs a person.</h2>
+        <p>
+          Each kind of action has a tier. <code>autonomous</code> actions run.
+          <code>notify</code> actions run and tell you. <code>approve</code> actions wait in the Inbox until a person says
+          yes.
+        </p>
+        <p>The audit trail records who decided what, when and why.</p>
+      </div>
+      <DecisionMatrix />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="playbooks-title">
+    <div class="container">
+      <div class="feature-copy wide">
+        <p class="eyebrow">Playbooks and pods</p>
+        <h2 id="playbooks-title" class="section-title">From charter to release, in stages.</h2>
+        <p>
+          A playbook takes an engagement from charter to release. Each stage has a gate it must pass,
+          and a pod that hires the roles the stage needs.
+        </p>
+      </div>
+      <PlaybookIllustration />
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="budgets-title">
+    <div class="container">
+      <p class="eyebrow">Budgets</p>
+      <h2 id="budgets-title" class="section-title">Spend stays inside the lines you draw.</h2>
+      <ul class="facts">
+        <li>
+          <p class="fact-label mono">budgets</p>
+          <p>Give the company and its work a budget. Each run counts what it spends against it.</p>
+        </li>
+        <li>
+          <p class="fact-label mono">thresholds</p>
+          <p>Crossing a spending threshold sends a decision to the Inbox.</p>
+        </li>
+        <li>
+          <p class="fact-label mono">stop</p>
+          <p>One stop button halts every run within two seconds.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <CallToAction />
+</Base>
+
+<style>
+  .hero {
+    padding-block: var(--s-9) var(--s-8);
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(60rem 30rem at 85% -10%, var(--accent-soft), transparent 60%),
+      var(--bg);
+  }
+
+  .hero-grid {
+    display: grid;
+    gap: var(--s-8);
+    align-items: center;
+  }
+
+  .hero h1 {
+    font-size: var(--text-3xl);
+    letter-spacing: -0.025em;
+    margin-block: var(--s-3) var(--s-5);
+    max-width: 18ch;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-6);
+  }
+
+  .hint {
+    margin-top: var(--s-3);
+    font-size: var(--text-sm);
+    color: var(--text-faint);
+  }
+
+  @media (min-width: 64rem) {
+    .hero-grid {
+      grid-template-columns: 1fr 1.05fr;
+    }
+  }
+
+  .section {
+    padding-block: var(--s-9) 0;
+  }
+
+  .section-title {
+    font-size: var(--text-2xl);
+    margin-top: var(--s-2);
+    max-width: 24ch;
+  }
+
+  .section-lede {
+    margin-top: var(--s-4);
+    color: var(--text-muted);
+    font-size: var(--text-lg);
+    max-width: 40rem;
+  }
+
+  .audiences {
+    list-style: none;
+    margin: var(--s-7) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s-6);
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+
+  .audiences li {
+    border-top: 1px solid var(--border-strong);
+    padding-top: var(--s-4);
+  }
+
+  .audiences h3,
+  .model h3 {
+    font-size: var(--text-md);
+    margin-bottom: var(--s-2);
+  }
+
+  .audiences p,
+  .model p:not(.num) {
+    color: var(--text-muted);
+  }
+
+  .model {
+    list-style: none;
+    margin: var(--s-7) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+  }
+
+  .model li {
+    background: var(--surface);
+    padding: var(--s-5);
+  }
+
+  .model .num {
+    font-size: var(--text-xs);
+    color: var(--accent-ink);
+    margin-bottom: var(--s-3);
+  }
+
+  .model li.more {
+    padding: 0;
+    background: var(--bg-subtle);
+  }
+
+  .more a {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--s-2);
+    height: 100%;
+    padding: var(--s-5);
+    text-decoration: none;
+    color: var(--accent-ink);
+  }
+
+  .more a:hover {
+    background: var(--accent-soft);
+  }
+
+  .more-title {
+    font-weight: 700;
+  }
+
+  .more-title::after {
+    content: " →";
+  }
+
+  .more-text {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .hero-grid > *,
+  .feature > * {
+    min-width: 0;
+  }
+
+  .feature {
+    display: grid;
+    gap: var(--s-7);
+    align-items: center;
+  }
+
+  .feature-copy p:not(.eyebrow) {
+    margin-top: var(--s-4);
+    color: var(--text-muted);
+    max-width: 34rem;
+  }
+
+  .feature-copy code {
+    color: var(--text);
+  }
+
+  .feature-copy.wide {
+    margin-bottom: var(--s-7);
+  }
+
+  @media (min-width: 60rem) {
+    .feature {
+      grid-template-columns: 1fr 1.25fr;
+      gap: var(--s-8);
+    }
+    .feature.reverse > :first-child {
+      order: 2;
+    }
+  }
+
+  .facts {
+    list-style: none;
+    margin: var(--s-7) 0 0;
+    padding: 0;
+    display: grid;
+    gap: var(--s-5);
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+
+  .facts li {
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    background: var(--bg-subtle);
+  }
+
+  .fact-label {
+    font-size: var(--text-xs);
+    color: var(--accent-ink);
+    margin-bottom: var(--s-2);
+  }
+
+  .facts p:not(.fact-label) {
+    color: var(--text-muted);
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import Docs from "../../layouts/Docs.astro";
+import { DOCS_DESCRIPTION } from "../../lib/pages";
+import { href } from "../../site";
+
+const pages = (await getCollection("docs")).sort((a, b) => a.data.order - b.data.order);
+---
+<Docs title="Documentation" description={DOCS_DESCRIPTION} og="docs" headings={[]}>
+  <ul class="cards">
+    {
+      pages.map((p) => (
+        <li>
+          <a href={href(`/docs/${p.id}/`)}>
+            <span class="t">{p.data.title}</span>
+            <span class="d">{p.data.description}</span>
+          </a>
+        </li>
+      ))
+    }
+    <li>
+      <a href={href("/faq/")}>
+        <span class="t">FAQ</span>
+        <span class="d">Short answers to the first questions people ask.</span>
+      </a>
+    </li>
+  </ul>
+</Docs>
+
+<style>
+  .cards {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .cards li + li {
+    margin-top: 0;
+  }
+
+  .cards a {
+    display: block;
+    padding: var(--s-5);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-decoration: none;
+    color: var(--text);
+    background: var(--surface);
+  }
+
+  .cards a:hover {
+    border-color: var(--accent);
+  }
+
+  .t {
+    display: block;
+    font-weight: 700;
+    font-size: var(--text-lg);
+  }
+
+  .d {
+    display: block;
+    margin-top: var(--s-1);
+    color: var(--text-muted);
+  }
+</style>

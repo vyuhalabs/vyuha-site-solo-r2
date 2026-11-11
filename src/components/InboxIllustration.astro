@@ -1,0 +1,181 @@
+---
+import Frame from "./Frame.astro";
+
+const items = [
+  {
+    tier: "approve",
+    title: "Merge pull request #128: add invoice export",
+    meta: "Billing · builder agent · tests 48 of 48 passed",
+    age: "2m",
+    actions: true,
+  },
+  {
+    tier: "threshold",
+    title: "Cycle 14 spend reached 80% of its budget",
+    meta: "Budgets · $320 of $400 · runs pause at 100%",
+    age: "11m",
+    actions: true,
+  },
+  {
+    tier: "approve",
+    title: "Release 0.9.0: move the playbook to its release stage",
+    meta: "Playbook · reviewer agent checked the evidence",
+    age: "34m",
+    actions: true,
+  },
+  {
+    tier: "notify",
+    title: "Reviewer agent asked for changes on #127",
+    meta: "Billing · for your information",
+    age: "1h",
+    actions: false,
+  },
+];
+---
+<Frame
+  title="vyuha · Inbox"
+  caption="Illustration of the Inbox: the decisions that need a person, with the evidence one click away."
+>
+  <div class="inbox">
+    <div class="head">
+      <p class="h">Inbox</p>
+      <p class="count"><span class="badge badge-accent">3 need a person</span></p>
+    </div>
+    <ul>
+      {
+        items.map((item) => (
+          <li class:list={["item", { read: !item.actions }]}>
+            <span
+              class:list={[
+                "badge",
+                {
+                  "badge-solid": item.tier === "approve",
+                  "badge-accent": item.tier === "threshold",
+                },
+              ]}
+            >
+              {item.tier}
+            </span>
+            <div class="text">
+              <p class="title">{item.title}</p>
+              <p class="meta">{item.meta}</p>
+            </div>
+            <div class="side">
+              <span class="age">{item.age}</span>
+              {item.actions && (
+                <span class="acts" aria-hidden="true">
+                  <span class="act primary">Approve</span>
+                  <span class="act">Decline</span>
+                </span>
+              )}
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</Frame>
+
+<style>
+  .inbox {
+    font-size: var(--text-sm);
+  }
+
+  .head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--s-3) var(--s-4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .h {
+    font-weight: 700;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .item {
+    display: grid;
+    grid-template-columns: 5.75rem 1fr auto;
+    align-items: start;
+    gap: var(--s-3);
+    padding: var(--s-3) var(--s-4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .item:last-child {
+    border-bottom: 0;
+  }
+
+  .item .badge {
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .title {
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .read .title {
+    font-weight: 400;
+    color: var(--text-muted);
+  }
+
+  .meta {
+    color: var(--text-faint);
+    font-size: var(--text-xs);
+    margin-top: 2px;
+  }
+
+  .side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--s-2);
+  }
+
+  .age {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--text-faint);
+  }
+
+  .acts {
+    display: inline-flex;
+    gap: var(--s-1);
+  }
+
+  .act {
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.125rem 0.5rem;
+    border-radius: 5px;
+    border: 1px solid var(--border-strong);
+    color: var(--text-muted);
+  }
+
+  .act.primary {
+    background: var(--text);
+    border-color: var(--text);
+    color: var(--bg);
+  }
+
+  @media (max-width: 34rem) {
+    .item {
+      grid-template-columns: 1fr auto;
+    }
+    .item .badge {
+      grid-column: 1 / -1;
+      justify-self: start;
+    }
+    .acts {
+      display: none;
+    }
+  }
+</style>
