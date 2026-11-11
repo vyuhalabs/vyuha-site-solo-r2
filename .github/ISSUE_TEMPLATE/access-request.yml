@@ -1,0 +1,41 @@
+name: Access request
+description: Ask for access to vyuha.
+title: "Access request: "
+labels: ["access request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for your interest in vyuha. This issue is public: leave out anything private, such as e-mail addresses, client names or credentials.
+  - type: input
+    id: who
+    attributes:
+      label: Who you are
+      description: Your name or handle, and your team or company.
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: Which describes you best?
+      options:
+        - Founder or small product team
+        - Engineering lead adopting coding agents
+        - Services firm or support shop
+        - Something else
+    validations:
+      required: true
+  - type: textarea
+    id: work
+    attributes:
+      label: What you want agents to do
+      description: The work, the repository it lives in (if public), and how you would check it.
+    validations:
+      required: true
+  - type: textarea
+    id: guardrails
+    attributes:
+      label: What must stay with a person
+      description: The decisions, budgets or customer contact you want approved before anything happens.
+    validations:
+      required: false
